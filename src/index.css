@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #040816;
+  color: #e2e8f0;
+  font-family: 'Tajawal', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+button {
+  font-family: 'Changa', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: #38bdf8;
+  color: #041022;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(90deg, #5d2ec0 0.39%, #4264ca 44.78%, #22a7d9 99.66%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-brand::placeholder {
+  color: #594fd0;
+  -webkit-text-fill-color: #594fd0;
+  opacity: 0.9;
+}
