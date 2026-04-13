@@ -6,14 +6,14 @@ import blueHue from '../assets/BLUE HUE.png'
 function Home() {
   return (
     <main dir="rtl" className="relative min-h-screen overflow-x-hidden text-slate-100">
-      <div className="pointer-events-none absolute inset-0 rgba(14, 14, 17, 1)" />
+      <div className="pointer-events-none absolute inset-0 bg-[rgba(14,14,17,1)]" />
       <img
         src={blueHue}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 w-[min(1600px,140vw)] max-w-none -translate-x-1/2 "
+        className="pointer-events-none absolute left-1/2 w-[min(1600px,140vw)] max-w-none -translate-x-1/2"
       />
-      <div className="relative mx-auto max-w-[1240px]">
+      <div className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
         <Navbar />
         <Section1 />
       </div>

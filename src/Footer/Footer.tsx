@@ -21,8 +21,8 @@ function Footer() {
   }
 
   return (
-    <footer dir="rtl" className="">
-      <div className="px-[100px] relative overflow-hidden rounded-t-[32px] border border-[#2B2E3C] bg-gradient-to-l from-[#171821] to-[#1F2029]">
+    <footer dir="rtl" className="w-full">
+      <div className="relative w-full overflow-hidden rounded-t-[32px] border border-[#2B2E3C] bg-gradient-to-l from-[#171821] to-[#1F2029] px-4 sm:px-8 lg:px-[60px]">
         <img
           src={footerPattern}
           alt=""
@@ -30,18 +30,20 @@ function Footer() {
           className="pointer-events-none absolute -right-28 top-1/2 hidden h-[940px] w-auto -translate-y-1/2  lg:block"
         />
 
-        <div className="relative pt-[60px]">
-          <div className="rounded-[16px] bg-[#2F99CF] px-[36px] py-[28px]">
-            <div className="flex flex-col-reverse gap-auto flex-row items-center justify-between">
+        <div className="relative pt-10 sm:pt-[60px]">
+          <div className="rounded-[16px] bg-[#2F99CF] px-4 py-5 sm:px-[30px] sm:py-[24px] lg:px-[36px] lg:py-[28px]">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="text-right">
-                <h2 className="text-[24px] font-bold leading-tight text-white">نسعد بخدمتكم</h2>
-                <p className="mt-2 text-[24px] text-white/80">
+                <h2 className="text-[22px] font-bold leading-tight text-white sm:text-[24px]">
+                  نسعد بخدمتكم
+                </h2>
+                <p className="mt-2 text-[17px] text-white/80 sm:text-[22px] lg:text-[24px]">
                   تواصل معنا للحصول على خدماتنا في أي وقت
                 </p>
               </div>
-              
-              <form onSubmit={handleSubmit} className="w-[457px]">
-                <div className="flex items-center gap-3 rounded-[16px] bg-[#E8E8EB] p-[16px]">
+
+              <form onSubmit={handleSubmit} className="w-full lg:max-w-[457px]">
+                <div className="flex flex-col gap-3 rounded-[16px] bg-[#E8E8EB] p-3 sm:flex-row sm:items-center sm:gap-3 sm:p-[16px]">
                   <div className="flex min-w-0 flex-1 flex-nowrap items-center justify-start gap-2 px-2">
                     <FiMail className="h-5 w-5 shrink-0 text-[#4264CA]" />
                     <input
@@ -52,7 +54,7 @@ function Footer() {
                   </div>
                   <button
                     type="submit"
-                    className="rounded-[10px] bg-[#2F99CF] px-5 py-2 text-lg font-bold text-white transition hover:bg-[#2989BA]"
+                    className="w-full rounded-[10px] bg-[#2F99CF] px-5 py-2 text-lg font-bold text-white transition hover:bg-[#2989BA] sm:w-auto"
                   >
                     ارسال
                   </button>
@@ -61,12 +63,14 @@ function Footer() {
             </div>
           </div>
 
-          <div className="mt-[32px] flex flex-col flex-row items-start justify-between">
+          <div className="mt-[32px] grid gap-8 md:grid-cols-2 md:items-start lg:grid-cols-[auto_auto_minmax(0,430px)]">
             <div className="text-right">
               <h3 className="text-[20px] font-bold text-[#FDFDFD] mb-[40px]">روابط سريعة</h3>
               <ul className="mt-3 space-y-1 text-[16px] font-semibold text-[#FDFDFD]">
                 {quickLinks.map((item) => (
-                  <li className=" mt-[12px]" key={item}>{item}</li>
+                  <li className=" mt-[12px]" key={item}>
+                    {item}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -75,24 +79,26 @@ function Footer() {
               <h3 className="text-[20px] font-bold text-[#FDFDFD] mb-[40px]">خدماتنا</h3>
               <ul className="space-y-1 text-[16px] font-semibold text-[#FDFDFD]">
                 {services.map((item) => (
-                  <li className=" mt-[12px]" key={item}>{item}</li>
+                  <li className=" mt-[12px]" key={item}>
+                    {item}
+                  </li>
                 ))}
               </ul>
             </div>
 
-            <div className="w-[430px]">
+            <div className="w-full md:col-span-2 lg:col-span-1 lg:max-w-[430px] lg:justify-self-end">
               <div className="rounded-[16px] bg-[#FDFDFD] p-[16px] text-right shadow-[0_10px_30px_rgba(0,0,0,0.22)]">
-                <div className="flex items-center justify-between gap-[16px]">
+                <div className="flex items-center justify-start gap-[16px]">
                   <div className="shrink-0 text-center">
                     <img src={leenMark} alt="لين" className="mx-auto h-[90px] w-[54px] object-contain" />
                   </div>
-                  <div className="text-[16px] font-bold text-[#4B5768]">
+                  <div className="text-[15px] font-bold text-[#4B5768] sm:text-[16px]">
                     شريكك المثالي لتحقيق التحول الرقمي وتطوير أعمالك باستخدام أحدث التقنيات.
                   </div>
                 </div>
               </div>
 
-              <div dir="ltr" className="mt-[32px] flex items-center justify-center gap-[12px] md:justify-start">
+              <div dir="ltr" className="mt-[24px] flex items-center justify-center gap-[12px] md:justify-center lg:justify-start">
                 {socialLinks.map(({ icon: Icon, label }) => (
                   <a
                     key={label}
@@ -107,29 +113,34 @@ function Footer() {
             </div>
           </div>
 
-          <div className="mt-[32px] grid border-b border-[#FDFDFD] pb-[32px] text-right md:grid-cols-3">
+          <div className="mt-[32px] grid gap-6 border-b border-[#FDFDFD] pb-[32px] text-right md:grid-cols-3">
             <div className="flex items-center gap-[12px] justify-start">
               <FiPhone className="h-[32px] w-[32px] text-[#A0ABBB]" />
               <div>
-                <p className="text-[20px] text-[#FDFDFD]">الهاتف</p>
-                <p dir="ltr" className="text-[16px] font-bold bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-transparent">
+                <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">الهاتف</p>
+                <p
+                  dir="ltr"
+                  className="text-[16px] font-bold bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-transparent"
+                >
                   +966 50 123 4567
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-[12px] justify-center">
+            <div className="flex items-center gap-[12px] justify-start">
               <FiMail className="h-[32px] w-[32px] shrink-0 text-[#A0ABBB]" />
               <div>
-                <p className="text-[20px] text-[#FDFDFD]">البريد الالكتروني</p>
-                <p className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent">info@leen-solutions.com</p>
+                <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">البريد الالكتروني</p>
+                <p className="break-all bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent sm:break-normal">
+                  info@leen-solutions.com
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-[12px] md:justify-end">
               <FiMapPin className="h-[32px] w-[32px] shrink-0 text-[#A0ABBB]" />
               <div>
-                <p className="text-[20px] text-[#FDFDFD]">العنوان</p>
+                <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">العنوان</p>
                 <p className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent">
                   الرياض، المملكة العربية السعودية
                 </p>
@@ -137,7 +148,7 @@ function Footer() {
             </div>
           </div>
 
-          <p className="py-[24px] text-center text-[16px] text-[#F1F2F5]">
+          <p className="py-[20px] text-center text-[14px] text-[#F1F2F5] sm:py-[24px] sm:text-[16px]">
             © 2024 لين للحلول الذكية. جميع الحقوق محفوظة.
           </p>
         </div>
