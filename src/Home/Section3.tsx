@@ -1,60 +1,75 @@
-const projectCards = [
+import app6OctoberImage from '../assets/6October App.png'
+import dreamTechImage from '../assets/Dream Tech.png'
+import awliAlazmImage from '../assets/ouli El Azm.png'
+import shagafImage from '../assets/Shagaf.png'
+
+type ProjectCard = {
+  id: string
+  title: string
+  description: string
+  image: string
+}
+
+const projectCards: ProjectCard[] = [
   {
-    title: 'تطبيق أول الخير',
-    category: 'منصة تجارة رقمية',
-    image:
-      'https://images.unsplash.com/photo-1589561084283-930aa7b1ce50?auto=format&fit=crop&w=900&q=80',
+    id: 'shagaf',
+    title: 'تطبيق شغف',
+    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
+    image: shagafImage,
   },
   {
-    title: 'Dawn Tech Mobile',
-    category: 'تطبيقات جوال',
-    image:
-      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',
+    id: 'dream-tech',
+    title: 'Daam Tech Mobile App',
+    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
+    image: dreamTechImage,
   },
   {
-    title: 'منصة عقود ذكية',
-    category: 'بوابة أعمال',
-    image:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
+    id: 'october-app',
+    title: 'تطبيق مراكز 6 اكتوبر',
+    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
+    image: app6OctoberImage,
   },
   {
-    title: 'لوحة تحكم تشغيلية',
-    category: 'أنظمة داخلية',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80',
+    id: 'awli-alazm',
+    title: 'تطبيق اولى العزم',
+    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
+    image: awliAlazmImage,
   },
 ]
 
 function Section3() {
   return (
-    <section id="projects" className="mx-auto max-w-[1180px] scroll-mt-28 px-4 py-20 md:px-6">
-      <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div className="text-right">
-          <h2 className="text-3xl font-black text-white md:text-5xl">أبرز أعمالنا</h2>
-          <p className="mt-3 text-sm text-slate-300">نماذج حقيقية من مشاريع نجحت في السوق.</p>
-        </div>
-        <button className="rounded-full border border-cyan-400/30 bg-sky-500/10 px-5 py-2 text-sm text-cyan-200">
-          عرض المشاريع
-        </button>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {projectCards.map((project) => (
-          <article
-            key={project.title}
-            className="group relative overflow-hidden rounded-2xl border border-white/10"
+    <section id="projects" className="relative mb-[60px] overflow-x-hidden overflow-y-visible scroll-mt-28 pt-2">
+      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
+        <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-2 sm:mb-8 sm:gap-6">
+          <button
+            type="button"
+            className="relative h-9 w-[146px] appearance-none rounded-[10px] border-none bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-[13px] font-bold text-white outline-none transition hover:brightness-110 focus:outline-none sm:h-12 sm:w-[222px] sm:rounded-[12px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]"
           >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="h-48 w-full object-cover transition duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-4">
-              <p className="text-xs text-cyan-200/80">{project.category}</p>
-              <h3 className="mt-1 text-sm font-bold text-white">{project.title}</h3>
+            عرض جميع اعمالنا
+          </button>
+
+          <h2 className="shrink-0 whitespace-nowrap text-right text-[24px] font-black text-white sm:text-[44px] lg:text-[56px]">ابرز اعمالنا</h2>
+        </div>
+
+        <div className="block">
+          <div className="no-scrollbar -mx-4 overflow-x-auto px-4 pb-2 touch-pan-x sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
+            <div className="flex w-max snap-x snap-mandatory justify-start gap-4 sm:gap-5 lg:gap-6">
+              {projectCards.map((card) => (
+                <article
+                  key={card.id}
+                  className="w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
+                >
+                  <div className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.05)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8" dir="rtl">
+                    <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>
+                    <p className="mt-1 text-[12px] leading-5 text-[rgba(255,255,255,0.75)] sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">{card.description}</p>
+                  </div>
+                  <img src={card.image} alt={card.title} className="h-[200px] w-full object-cover sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-auto" />
+                </article>
+              ))}
             </div>
-          </article>
-        ))}
+          </div>
+        </div>
       </div>
     </section>
   )

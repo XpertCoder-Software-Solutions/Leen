@@ -40,6 +40,14 @@ const partnerLogos = [
 function Section1() {
   const logosScrollerRef = useRef<HTMLDivElement | null>(null)
 
+  const scrollToContactSection = () => {
+    const targetSection = document.querySelector<HTMLElement>('#contact')
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.history.replaceState(null, '', '#contact')
+    }
+  }
+
   useEffect(() => {
     const scroller = logosScrollerRef.current
     if (!scroller) return
@@ -104,7 +112,11 @@ function Section1() {
         <button className="h-12 w-[150px] appearance-none rounded-[12px] border-none bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-lg font-bold text-white outline-none transition hover:brightness-110 focus:outline-none sm:h-[53px] sm:w-[160px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]">
           خدمتنا
         </button>
-        <button className="h-12 w-[150px] rounded-[12px] border border-cyan-300/30 bg-[#FDFDFD] text-lg font-bold transition hover:border-cyan-300/70 sm:h-[53px] sm:w-[160px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]">
+        <button
+          type="button"
+          onClick={scrollToContactSection}
+          className="h-12 w-[150px] rounded-[12px] border border-cyan-300/30 bg-[#FDFDFD] text-lg font-bold transition hover:border-cyan-300/70 sm:h-[53px] sm:w-[160px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]"
+        >
           <span className="bg-[linear-gradient(90deg,#5D2EC0_0.39%,#4264CA_44.78%,#22A7D9_99.66%)] bg-clip-text text-transparent">
             تواصل معنا
           </span>
