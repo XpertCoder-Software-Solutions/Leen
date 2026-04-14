@@ -22,7 +22,7 @@ function Footer() {
 
   return (
     <footer dir="rtl" className="w-full">
-      <div className="relative w-full overflow-hidden rounded-t-[32px] border border-[#2B2E3C] bg-gradient-to-l from-[#171821] to-[#1F2029] px-4 sm:px-8 lg:px-[60px]">
+      <div className="relative w-full overflow-hidden rounded-t-[32px] border border-[#2B2E3C] bg-gradient-to-l from-[#171821] to-[#1F2029] px-4 sm:px-6 lg:px-[100px]">
         <img
           src={footerPattern}
           alt=""
@@ -137,12 +137,12 @@ function Footer() {
               </div>
             </div>
 
-            <div className="flex items-center gap-[12px] md:justify-end">
+            <div className="flex items-center gap-[12px] md:justify-end lg:justify-start">
               <FiMapPin className="h-[32px] w-[32px] shrink-0 text-[#A0ABBB]" />
               <div>
                 <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">العنوان</p>
-                <p className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent">
-                  الرياض، المملكة العربية السعودية
+                <p className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent md:text-[14px]">
+                  بريدة، المملكة العربية السعودية
                 </p>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import Section1 from './Section1'
+import Section6 from './Section6'
 import blueHue from '../assets/BLUE HUE.png'
 
 function Home() {
@@ -22,7 +23,7 @@ function Home() {
       {/* <Section3 /> */}
       {/* <Section4 /> */}
       {/* <Section5 /> */}
-      {/* <Section6 /> */}
+      <Section6 />
       <Footer />
     </main>
   )
