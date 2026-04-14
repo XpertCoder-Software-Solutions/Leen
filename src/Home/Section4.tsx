@@ -11,7 +11,7 @@ const reasons = [
 
 function Section4() {
   return (
-    <section id="solutions-section" className="scroll-mt-28 border-y border-white/5 bg-[#050812] py-20">
+    <section id="solutions" className="scroll-mt-28 border-y border-white/5 bg-[#050812] py-20">
       <div className="mx-auto max-w-[1180px] px-4 text-center md:px-6">
         <h2 className="text-3xl font-black text-white md:text-5xl">لماذا لين للحلول الذكية؟</h2>
         <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300">

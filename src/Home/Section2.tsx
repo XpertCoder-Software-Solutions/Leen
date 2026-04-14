@@ -39,7 +39,7 @@ const services = [
 
 function Section2() {
   return (
-    <section id="services-section" className="relative scroll-mt-28 border-y border-white/5 bg-[#050413]/80 py-20">
+    <section id="services" className="relative scroll-mt-28 border-y border-white/5 bg-[#050413]/80 py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.45),transparent_70%)]" />
       <div className="mx-auto max-w-[1180px] px-4 md:px-6">
         <div className="text-center">

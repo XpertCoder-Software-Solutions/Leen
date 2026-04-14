@@ -83,7 +83,7 @@ function Section1() {
 
   return (
     <section
-      id="home-section"
+      id="home"
       className="relative mx-auto w-full max-w-[1240px] scroll-mt-28 px-0 pb-16 pt-[150px] text-center sm:px-0 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
     >
       <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(62,78,145,1)] bg-[rgba(62,78,145,0.5)] px-3 py-2 text-sm text-[#FDFDFD] sm:text-base">

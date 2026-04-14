@@ -5,7 +5,7 @@ function Section6() {
     'https://maps.google.com/maps?q=9XC4%2BPV9%20Buraydah%20Saudi%20Arabia&z=16&t=m&hl=ar&iwloc=B&output=embed'
 
   return (
-    <section id="contact-section" className="mx-auto mb-[60px] w-full max-w-[1240px] scroll-mt-28 px-0">
+    <section id="contact" className="mx-auto mb-[60px] w-full max-w-[1240px] scroll-mt-28 px-0">
       <div className="grid rounded-[24px] border border-white/10 bg-[#1D1C20] backdrop-blur sm:rounded-[30px] lg:grid-cols-2">
         <div className="flex flex-col items-center justify-center rounded-3xl px-4 py-8 text-center sm:px-6 sm:py-10 md:px-8 md:py-12">
           <div className="flex flex-col items-center justify-center">

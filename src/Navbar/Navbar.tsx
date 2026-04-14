@@ -5,12 +5,12 @@ import Vision from '../assets/Vision.png'
 
 const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'الحلول', 'تواصل معنا']
 const navItemAnchors: Record<string, string> = {
-  'الرئيسية': '#home-section',
-  'من نحن': '#about-section',
-  'خدماتنا': '#services-section',
-  'اعمالنا': '#projects-section',
-  'الحلول': '#solutions-section',
-  'تواصل معنا': '#contact-section',
+  'الرئيسية': '#home',
+  'من نحن': '#about',
+  'خدماتنا': '#services',
+  'اعمالنا': '#projects',
+  'الحلول': '#solutions',
+  'تواصل معنا': '#contact',
 }
 
 function Navbar() {
