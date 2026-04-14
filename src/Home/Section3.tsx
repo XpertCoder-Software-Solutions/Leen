@@ -27,7 +27,7 @@ const projectCards = [
 
 function Section3() {
   return (
-    <section className="mx-auto max-w-[1180px] px-4 py-20 md:px-6">
+    <section id="projects-section" className="mx-auto max-w-[1180px] scroll-mt-28 px-4 py-20 md:px-6">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div className="text-right">
           <h2 className="text-3xl font-black text-white md:text-5xl">أبرز أعمالنا</h2>

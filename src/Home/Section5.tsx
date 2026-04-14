@@ -39,7 +39,7 @@ const teamMembers = [
 
 function Section5() {
   return (
-    <section className="mx-auto max-w-[1180px] px-4 py-20 md:px-6">
+    <section id="about-section" className="mx-auto max-w-[1180px] scroll-mt-28 px-4 py-20 md:px-6">
       <div className="rounded-[30px] border border-white/10 bg-slate-900/55 p-6 backdrop-blur md:p-8">
         <h2 className="text-right text-3xl font-black text-white">تعرّف على أعضاء فريقنا</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">

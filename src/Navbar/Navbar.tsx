@@ -1,15 +1,77 @@
-import { useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { FiMenu } from 'react-icons/fi'
 import logo from '../assets/White Leen 2.png'
 import Vision from '../assets/Vision.png'
 
 const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'الحلول', 'تواصل معنا']
+const navItemAnchors: Record<string, string> = {
+  'الرئيسية': '#home-section',
+  'من نحن': '#about-section',
+  'خدماتنا': '#services-section',
+  'اعمالنا': '#projects-section',
+  'الحلول': '#solutions-section',
+  'تواصل معنا': '#contact-section',
+}
 
 function Navbar() {
   const [activeItem, setActiveItem] = useState(navItems[0])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const handleItemClick = (item: string) => {
+  useEffect(() => {
+    const sectionEntries = navItems
+      .map((item) => {
+        const sectionSelector = navItemAnchors[item]
+        if (!sectionSelector) return null
+
+        const sectionElement = document.querySelector<HTMLElement>(sectionSelector)
+        if (!sectionElement) return null
+
+        return { item, sectionElement }
+      })
+      .filter((entry): entry is { item: string; sectionElement: HTMLElement } => entry !== null)
+
+    if (!sectionEntries.length) return
+
+    const updateActiveOnScroll = () => {
+      const triggerPosition = window.scrollY + window.innerHeight * 0.35
+      let currentItem = sectionEntries[0].item
+
+      for (const entry of sectionEntries) {
+        if (entry.sectionElement.offsetTop <= triggerPosition) {
+          currentItem = entry.item
+        }
+      }
+
+      setActiveItem((prev) => (prev === currentItem ? prev : currentItem))
+    }
+
+    updateActiveOnScroll()
+    window.addEventListener('scroll', updateActiveOnScroll, { passive: true })
+    window.addEventListener('resize', updateActiveOnScroll)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveOnScroll)
+      window.removeEventListener('resize', updateActiveOnScroll)
+    }
+  }, [])
+
+  const handleItemClick = (event: MouseEvent<HTMLAnchorElement>, item: string) => {
+    const targetAnchor = navItemAnchors[item]
+
+    if (!targetAnchor) {
+      event.preventDefault()
+      setActiveItem(item)
+      setIsMenuOpen(false)
+      return
+    }
+
+    event.preventDefault()
+    const targetSection = document.querySelector<HTMLElement>(targetAnchor)
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.history.replaceState(null, '', targetAnchor)
+    }
+
     setActiveItem(item)
     setIsMenuOpen(false)
   }
@@ -40,8 +102,8 @@ function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item}
-                href="#"
-                onClick={() => setActiveItem(item)}
+                href={navItemAnchors[item] ?? '#'}
+                onClick={(event) => handleItemClick(event, item)}
                 className={`inline-flex items-center rounded-[8px] px-2.5 py-2 text-xs transition lg:px-4 lg:text-sm ${
                   activeItem === item
                     ? 'bg-[rgba(15,14,22,1)] text-white'
@@ -72,8 +134,8 @@ function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item}
-                href="#"
-                onClick={() => handleItemClick(item)}
+                href={navItemAnchors[item] ?? '#'}
+                onClick={(event) => handleItemClick(event, item)}
                 className={`rounded-[10px] px-3 py-2 text-sm transition ${
                   activeItem === item
                     ? 'bg-[rgba(47,153,207,0.22)] text-white'
