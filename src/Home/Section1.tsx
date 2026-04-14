@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { BsStars } from 'react-icons/bs'
 import { RiStarSFill } from 'react-icons/ri'
-import { FaPlay } from 'react-icons/fa'
 import logo from '../assets/Logo.svg'
 import logo1 from '../assets/Logo-1.svg'
 import logo2 from '../assets/Logo-2.svg'
 import logo3 from '../assets/Logo-3.svg'
 import logo4 from '../assets/Logo-4.svg'
 import logo5 from '../assets/Logo-5.svg'
-import videoImage from '../assets/Video.png'
 
 const partnerLogos = [
   logo,
@@ -92,7 +90,7 @@ function Section1() {
   return (
     <section
       id="home"
-      className="relative mx-auto w-full max-w-[1240px] scroll-mt-28 px-0 pb-16 pt-[150px] text-center sm:px-0 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
+      className="relative mx-auto w-full max-w-[1240px] scroll-mt-28 px-0 mb-[120px] pt-[150px] text-center sm:px-0 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
     >
       <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(62,78,145,1)] bg-[rgba(62,78,145,0.5)] px-3 py-2 text-sm text-[#FDFDFD] sm:text-base">
         <BsStars />
@@ -145,21 +143,6 @@ function Section1() {
               />
             ))}
           </div>
-        </div>
-      </div>
-
-      <div className="mt-12 overflow-hidden rounded-[30px] border border-transparent p-[10px] [background:linear-gradient(rgba(15,23,42,0.7),rgba(15,23,42,0.7))_padding-box,linear-gradient(90deg,#5D2EC0_0.39%,#4264CA_44.78%,#22A7D9_99.66%)_border-box]">
-        <div className="relative overflow-hidden rounded-[24px]">
-          <img
-            src={videoImage}
-            alt="رائد أعمال يستخدم هاتفه"
-            className="h-[240px] w-full object-cover sm:h-[340px] md:h-[420px] lg:h-[520px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050812]/70 via-[#050812]/20 to-transparent" />
-          <button className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-cyan-200/70 bg-white/90 px-4 py-2 text-[11px] font-bold text-slate-900 sm:px-5 sm:text-xs">
-            Play Video
-            <FaPlay className="h-3 w-3" />
-          </button>
         </div>
       </div>
     </section>

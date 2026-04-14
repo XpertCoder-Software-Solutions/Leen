@@ -3,13 +3,13 @@ import { FiMenu } from 'react-icons/fi'
 import logo from '../assets/White Leen 2.png'
 import Vision from '../assets/Vision.png'
 
-const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'الحلول', 'تواصل معنا']
+const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'لماذا نحن', 'تواصل معنا']
 const navItemAnchors: Record<string, string> = {
   'الرئيسية': '#home',
   'من نحن': '#about',
   'خدماتنا': '#services',
   'اعمالنا': '#projects',
-  'الحلول': '#solutions',
+  'لماذا نحن': '#why-choose-us',
   'تواصل معنا': '#contact',
 }
 

@@ -1,74 +1,70 @@
-import app6OctoberImage from '../assets/6October App.png'
-import dreamTechImage from '../assets/Dream Tech.png'
-import awliAlazmImage from '../assets/ouli El Azm.png'
-import shagafImage from '../assets/Shagaf.png'
-
-type ProjectCard = {
-  id: string
-  title: string
-  description: string
-  image: string
-}
-
-const projectCards: ProjectCard[] = [
+const services = [
   {
-    id: 'shagaf',
-    title: 'تطبيق شغف',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: shagafImage,
+    code: '01',
+    title: 'تطبيقات ويب متكاملة',
+    description: 'حلول مرنة وسريعة تدعم تشغيل الأعمال على نطاق واسع.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(56,189,248,0.85)]',
   },
   {
-    id: 'dream-tech',
-    title: 'Daam Tech Mobile App',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: dreamTechImage,
+    code: '02',
+    title: 'حلول موبايل احترافية',
+    description: 'تجربة استخدام انسيابية على iOS و Android بأداء ثابت.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(250,204,21,0.8)]',
   },
   {
-    id: 'october-app',
-    title: 'تطبيق مراكز 6 اكتوبر',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: app6OctoberImage,
+    code: '03',
+    title: 'التحول الرقمي للمؤسسات',
+    description: 'ربط الأنظمة الداخلية ورفع الإنتاجية عبر أتمتة ذكية.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(34,197,94,0.8)]',
   },
   {
-    id: 'awli-alazm',
-    title: 'تطبيق اولى العزم',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: awliAlazmImage,
+    code: '04',
+    title: 'هوية بصرية وتجربة مستخدم',
+    description: 'تصميم واجهات جذابة تبني الثقة وتدعم قرار الشراء.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(168,85,247,0.82)]',
+  },
+  {
+    code: '05',
+    title: 'ذكاء اصطناعي وتحليلات',
+    description: 'نماذج تنبؤية ولوحات متابعة فورية لمؤشرات الأداء.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(14,165,233,0.82)]',
+  },
+  {
+    code: '06',
+    title: 'حماية وتشغيل سحابي',
+    description: 'بنية موثوقة مع مراقبة أمنية واستجابة عالية للتوسع.',
+    glow: 'shadow-[0_0_28px_-16px_rgba(239,68,68,0.82)]',
   },
 ]
 
 function Section3() {
   return (
-    <section id="projects" className="relative mb-[60px] overflow-x-hidden overflow-y-visible scroll-mt-28 pt-2">
-      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
-        <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-2 sm:mb-8 sm:gap-6">
-          <button
-            type="button"
-            className="relative h-9 w-[146px] appearance-none rounded-[10px] border-none bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-[13px] font-bold text-white outline-none transition hover:brightness-110 focus:outline-none sm:h-12 sm:w-[222px] sm:rounded-[12px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]"
-          >
-            عرض جميع اعمالنا
-          </button>
-
-          <h2 className="shrink-0 whitespace-nowrap text-right text-[24px] font-black text-white sm:text-[44px] lg:text-[56px]">ابرز اعمالنا</h2>
-        </div>
-
-        <div className="block">
-          <div className="no-scrollbar -mx-4 overflow-x-auto px-4 pb-2 touch-pan-x sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
-            <div className="flex w-max snap-x snap-mandatory justify-start gap-4 sm:gap-5 lg:gap-6">
-              {projectCards.map((card) => (
-                <article
-                  key={card.id}
-                  className="w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
-                >
-                  <div className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.05)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8" dir="rtl">
-                    <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>
-                    <p className="mt-1 text-[12px] leading-5 text-[rgba(255,255,255,0.75)] sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">{card.description}</p>
-                  </div>
-                  <img src={card.image} alt={card.title} className="h-[200px] w-full object-cover sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-auto" />
-                </article>
-              ))}
-            </div>
+    <section id="services" className="relative scroll-mt-28 border-y border-white/5 bg-[#050413]/80 py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.45),transparent_70%)]" />
+      <div className="mx-auto max-w-[1180px] px-4 md:px-6">
+        <div className="text-center">
+          <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-[radial-gradient(circle,#67e8f9_0%,#2563eb_45%,#020617_100%)] text-xl font-black text-white shadow-[0_0_45px_-16px_rgba(56,189,248,0.95)]">
+            AI
           </div>
+          <h2 className="text-3xl font-black text-white md:text-5xl">خدماتنا المتميزة</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300">
+            نقدم مجموعة متكاملة من الخدمات التقنية المصممة لدعم نمو أعمالك، من التحليل
+            والتخطيط وحتى التنفيذ والمتابعة.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service) => (
+            <article
+              key={service.code}
+              className={`rounded-3xl border border-white/10 bg-slate-950/70 p-6 backdrop-blur transition hover:-translate-y-1 ${service.glow}`}
+            >
+              <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-sm font-bold text-cyan-200">
+                {service.code}
+              </span>
+              <h3 className="text-lg font-bold text-white">{service.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-slate-300">{service.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
