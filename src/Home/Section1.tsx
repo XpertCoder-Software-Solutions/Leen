@@ -50,36 +50,80 @@ function Section1() {
     const scroller = logosScrollerRef.current
     if (!scroller) return
 
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (motionPreference.matches) return
+
     let animationFrameId = 0
+    let isInViewport = false
+    let isPageVisible = document.visibilityState === 'visible'
     let isPaused = false
 
+    const stop = () => {
+      if (!animationFrameId) return
+      window.cancelAnimationFrame(animationFrameId)
+      animationFrameId = 0
+    }
+
+    const start = () => {
+      if (animationFrameId || isPaused || !isInViewport || !isPageVisible) return
+      animationFrameId = window.requestAnimationFrame(step)
+    }
+
     const step = () => {
-      if (!isPaused) {
+      if (!isPaused && isInViewport && isPageVisible) {
         scroller.scrollLeft += 0.8
         const endOfScroll = scroller.scrollWidth - scroller.clientWidth
         if (scroller.scrollLeft >= endOfScroll - 1) {
           scroller.scrollLeft = 0
         }
+        animationFrameId = window.requestAnimationFrame(step)
+      } else {
+        animationFrameId = 0
       }
-      animationFrameId = window.requestAnimationFrame(step)
     }
 
     const pauseScroll = () => {
       isPaused = true
+      stop()
     }
 
     const resumeScroll = () => {
       isPaused = false
+      start()
     }
 
-    animationFrameId = window.requestAnimationFrame(step)
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isInViewport = Boolean(entry?.isIntersecting)
+        if (isInViewport) {
+          start()
+        } else {
+          stop()
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    const onVisibilityChange = () => {
+      isPageVisible = document.visibilityState === 'visible'
+      if (isPageVisible) {
+        start()
+      } else {
+        stop()
+      }
+    }
+
+    visibilityObserver.observe(scroller)
+    document.addEventListener('visibilitychange', onVisibilityChange)
     scroller.addEventListener('mouseenter', pauseScroll)
     scroller.addEventListener('mouseleave', resumeScroll)
     scroller.addEventListener('touchstart', pauseScroll, { passive: true })
     scroller.addEventListener('touchend', resumeScroll)
 
     return () => {
-      window.cancelAnimationFrame(animationFrameId)
+      stop()
+      visibilityObserver.disconnect()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
       scroller.removeEventListener('mouseenter', pauseScroll)
       scroller.removeEventListener('mouseleave', resumeScroll)
       scroller.removeEventListener('touchstart', pauseScroll)
@@ -139,6 +183,8 @@ function Section1() {
                 key={`${logoSrc}-${index}`}
                 src={logoSrc}
                 alt={`Partner logo ${index + 1}`}
+                loading="lazy"
+                decoding="async"
                 className="h-[45px] w-[140px] shrink-0 object-contain sm:h-[53px] sm:w-[160px]"
               />
             ))}

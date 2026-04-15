@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { BsStars } from 'react-icons/bs'
 import { IoCloud, IoFlash, IoStar } from 'react-icons/io5'
 import { RiMedalFill } from 'react-icons/ri'
-import leenMark from '../assets/Leen 2.png'
+import leenMark from '../assets/optimized/leen-2.webp'
 
 type ServiceTone = 'green' | 'yellow' | 'orange' | 'purple' | 'blue' | 'red'
 type ServiceIcon = 'shield' | 'cloud' | 'medal' | 'bolt'
@@ -182,6 +182,8 @@ function Section3() {
           <img
             src={leenMark}
             alt="لين"
+            loading="lazy"
+            decoding="async"
             className="motion-float-soft mx-auto mt-14 h-auto w-[100px] sm:mt-16 sm:w-[120px] lg:w-[153px]"
           />
 

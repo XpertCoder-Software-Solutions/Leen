@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -42,6 +41,11 @@ button:disabled {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 .text-gradient-brand {
@@ -192,6 +196,12 @@ button:disabled {
 .motion-map-ping {
   animation: mapPing 2.8s ease-out infinite;
   will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .motion-shimmer {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

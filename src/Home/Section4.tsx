@@ -1,7 +1,7 @@
-import app6OctoberImage from '../assets/6October App.png'
-import dreamTechImage from '../assets/Dream Tech.png'
-import awliAlazmImage from '../assets/ouli El Azm.png'
-import shagafImage from '../assets/Shagaf.png'
+import app6OctoberImage from '../assets/optimized/6oct-app.webp'
+import dreamTechImage from '../assets/optimized/dream-tech.webp'
+import awliAlazmImage from '../assets/optimized/awli-alazm.webp'
+import shagafImage from '../assets/optimized/shagaf.webp'
 import { navigateTo } from '../routing'
 
 type ProjectCard = {
@@ -66,7 +66,13 @@ function Section4() {
                     <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>
                     <p className="mt-1 text-[12px] leading-5 text-[rgba(255,255,255,0.75)] sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">{card.description}</p>
                   </div>
-                  <img src={card.image} alt={card.title} className="h-[200px] w-full object-cover sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-auto" />
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-[200px] w-full object-cover sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-auto"
+                  />
                 </article>
               ))}
             </div>

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
-import Home from './Home/Home'
-import Projects from './Projects/Projects'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { getCurrentPath, listenToRouteChanges } from './routing'
+
+const Home = lazy(() => import('./Home/Home'))
+const Projects = lazy(() => import('./Projects/Projects'))
 
 function App() {
   const [currentPath, setCurrentPath] = useState(getCurrentPath)
@@ -14,11 +15,11 @@ function App() {
     return listenToRouteChanges(handleRouteChange)
   }, [])
 
-  if (currentPath === '/all-projects') {
-    return <Projects />
-  }
-
-  return <Home />
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-[#040816]" aria-busy="true" />}>
+      {currentPath === '/all-projects' ? <Projects /> : <Home />}
+    </Suspense>
+  )
 }
 
 export default App

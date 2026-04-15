@@ -2,8 +2,8 @@ import type { FormEvent } from 'react'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
-import footerPattern from '../assets/Footer pattern.png'
-import leenMark from '../assets/LeenMark.png'
+import footerPattern from '../assets/optimized/footer-pattern.webp'
+import leenMark from '../assets/optimized/leen-mark.webp'
 
 const quickLinks = ['الرئيسية', 'من نحن', 'خدماتنا']
 const services = ['تصميم وتطوير المواقع', 'تطبيقات الهواتف الذكية', 'أنظمة ERP', 'التسويق الإلكتروني']
@@ -27,6 +27,8 @@ function Footer() {
           src={footerPattern}
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
           className="pointer-events-none absolute -right-28 top-1/2 hidden h-[940px] w-auto -translate-y-1/2  lg:block"
         />
 
@@ -90,7 +92,13 @@ function Footer() {
               <div className="rounded-[16px] bg-[#FDFDFD] p-[16px] text-right shadow-[0_10px_30px_rgba(0,0,0,0.22)]">
                 <div className="flex items-center justify-start gap-[16px]">
                   <div className="shrink-0 text-center">
-                    <img src={leenMark} alt="لين" className="mx-auto h-[90px] w-[54px] object-contain" />
+                    <img
+                      src={leenMark}
+                      alt="لين"
+                      loading="lazy"
+                      decoding="async"
+                      className="mx-auto h-[90px] w-[54px] object-contain"
+                    />
                   </div>
                   <div className="text-[15px] font-bold text-[#4B5768] sm:text-[16px]">
                     شريكك المثالي لتحقيق التحول الرقمي وتطوير أعمالك باستخدام أحدث التقنيات.

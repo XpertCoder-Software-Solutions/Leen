@@ -1,5 +1,5 @@
 import { FaPlay } from 'react-icons/fa'
-import videoImage from '../assets/Video.png'
+import videoImage from '../assets/optimized/video.webp'
 
 function Section2() {
   return (
@@ -17,6 +17,8 @@ function Section2() {
           <img
             src={videoImage}
             alt="رائد أعمال يستخدم هاتفه"
+            loading="lazy"
+            decoding="async"
             className="h-[240px] w-full object-cover sm:h-[340px] md:h-[420px] lg:h-[520px]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050812]/70 via-[#050812]/20 to-transparent" />

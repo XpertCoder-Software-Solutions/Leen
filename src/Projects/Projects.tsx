@@ -1,19 +1,18 @@
 import { useState } from 'react'
-import app6OctoberImage from '../assets/6October App.png'
-import web6OctoberImage from '../assets/6October Web.png'
-import dreamTechImage from '../assets/Dream Tech.png'
-import mgWebsiteImage from '../assets/MG Website.png'
-import mgImage from '../assets/MG.png'
-import onOneImage from '../assets/On One.png'
-import orangeBayImage from '../assets/Orange Bay.png'
-import polloImage from '../assets/Pollo.png'
-import blueHue from '../assets/Projects Hue.png'
-import shagafImage from '../assets/Shagaf.png'
-import videoImage from '../assets/Video.png'
-import awliAlazmImage from '../assets/ouli El Azm.png'
+import app6OctoberImage from '../assets/optimized/6oct-app.webp'
+import web6OctoberImage from '../assets/optimized/6oct-web.webp'
+import dreamTechImage from '../assets/optimized/dream-tech.webp'
+import mgWebsiteImage from '../assets/optimized/mg-website.webp'
+import mgImage from '../assets/optimized/mg.webp'
+import onOneImage from '../assets/optimized/on-one.webp'
+import orangeBayImage from '../assets/optimized/orange-bay.webp'
+import polloImage from '../assets/optimized/pollo.webp'
+import blueHue from '../assets/optimized/projects-hue.webp'
+import shagafImage from '../assets/optimized/shagaf.webp'
+import videoImage from '../assets/optimized/video.webp'
+import awliAlazmImage from '../assets/optimized/awli-alazm.webp'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
-import { navigateTo } from '../routing'
 
 type ProjectCard = {
   id: string
@@ -119,6 +118,9 @@ function Projects() {
         src={blueHue}
         alt=""
         aria-hidden="true"
+        loading="eager"
+        fetchPriority="low"
+        decoding="async"
         className="pointer-events-none absolute left-1/2 top-0 w-[min(1600px,90vw)] max-w-none -translate-x-1/2 motion-shimmer"
       />
 
@@ -146,7 +148,13 @@ function Projects() {
                     {card.description}
                   </p>
                 </div>
-                <img src={card.image} alt={card.title} className="h-[220px] w-full object-cover sm:h-[250px] lg:h-[265px]" />
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-[220px] w-full object-cover sm:h-[250px] lg:h-[265px]"
+                />
               </article>
             ))}
           </div>

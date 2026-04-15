@@ -7,7 +7,7 @@ import Section4 from './Section4'
 import Section5 from './Section5'
 import Section6 from './Section6'
 
-import blueHue from '../assets/BLUE HUE.png'
+import blueHue from '../assets/optimized/blue-hue.webp'
 
 function Home() {
   return (
@@ -17,6 +17,9 @@ function Home() {
         src={blueHue}
         alt=""
         aria-hidden="true"
+        loading="eager"
+        fetchPriority="low"
+        decoding="async"
         className="pointer-events-none absolute left-1/2 w-[min(1600px,140vw)] max-w-none -translate-x-1/2 motion-shimmer"
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -30,11 +33,21 @@ function Home() {
           <Section1 />
         </div>
 
-        <Section2 />
-        <Section3 />
-        <Section4 />
-        <Section5 />
-        <Section6 />
+        <div className="cv-auto">
+          <Section2 />
+        </div>
+        <div className="cv-auto">
+          <Section3 />
+        </div>
+        <div className="cv-auto">
+          <Section4 />
+        </div>
+        <div className="cv-auto">
+          <Section5 />
+        </div>
+        <div className="cv-auto">
+          <Section6 />
+        </div>
         <Footer />
       </div>
     </main>

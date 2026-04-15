@@ -1,7 +1,7 @@
 import { useEffect, useState, type MouseEvent } from 'react'
 import { FiMenu } from 'react-icons/fi'
-import logo from '../assets/White Leen 2.png'
-import Vision from '../assets/Vision.png'
+import logo from '../assets/optimized/white-leen.webp'
+import Vision from '../assets/optimized/vision.webp'
 import { getCurrentPath, navigateTo } from '../routing'
 
 const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'لماذا نحن', 'تواصل معنا']
@@ -123,6 +123,9 @@ function Navbar() {
           <img
             src={logo}
             alt="Leen logo"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="h-[64px] w-[45px] object-contain sm:h-[78px] sm:w-[55px] lg:h-[90px] lg:w-[63px]"
           />
         </div>
@@ -148,6 +151,8 @@ function Navbar() {
           <img
             src={Vision}
             alt="Vision logo"
+            loading="eager"
+            decoding="async"
             className="h-[60px] w-auto object-contain sm:h-[72px] lg:h-[90px]"
           />
         </div>
