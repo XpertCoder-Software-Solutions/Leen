@@ -79,14 +79,15 @@ function Section6() {
             className="pointer-events-none absolute inset-0 h-full w-full select-none border-0"
           />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.2),rgba(2,6,23,0.5))]" />
-          <div className="absolute right-4 rounded-full border border-cyan-300/40 bg-[#0f172a]/80 px-3 py-1.5 text-[11px] text-cyan-100 sm:right-6 top-10 sm:px-4 sm:py-2 sm:text-xs md:right-8">
+          <div className="motion-glow-pulse absolute right-4 top-10 rounded-full border border-cyan-300/40 bg-[#0f172a]/80 px-3 py-1.5 text-[11px] text-cyan-100 sm:right-6 sm:px-4 sm:py-2 sm:text-xs md:right-8">
             القصيم - بريدة - المملكة العربية السعودية
           </div>
+          <span aria-hidden="true" className="motion-map-ping pointer-events-none absolute right-6 top-[54px] h-2.5 w-2.5 rounded-full bg-cyan-300" />
           <a
             href={googleMapsLocationUrl}
             target="_blank"
             rel="noreferrer"
-            className="absolute bottom-6 left-4 rounded-full bg-gradient-to-l from-sky-400 to-blue-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-[0_0_24px_-12px_rgba(56,189,248,1)] transition hover:brightness-110 sm:bottom-8 sm:left-6 sm:px-4 sm:py-2 sm:text-xs md:bottom-10 md:left-8"
+            className="motion-breathe absolute bottom-6 left-4 rounded-full bg-gradient-to-l from-sky-400 to-blue-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-[0_0_24px_-12px_rgba(56,189,248,1)] transition hover:brightness-110 sm:bottom-8 sm:left-6 sm:px-4 sm:py-2 sm:text-xs md:bottom-10 md:left-8"
           >
             موقعنا على الخريطة
           </a>

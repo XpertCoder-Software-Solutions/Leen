@@ -94,7 +94,7 @@ const features: Feature[] = [
 function IconBox({ iconClasses, icon }: IconBoxProps) {
   return (
     <div
-      className={`relative grid h-[64px] w-[64px] place-items-center rounded-2xl border backdrop-blur-sm sm:h-[72px] sm:w-[72px] lg:h-[82px] lg:w-[82px] ${iconClasses}`}
+      className={`motion-shimmer relative grid h-[64px] w-[64px] place-items-center rounded-2xl border backdrop-blur-sm sm:h-[72px] sm:w-[72px] lg:h-[82px] lg:w-[82px] ${iconClasses}`}
     >
       <span className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.22),transparent_60%)]" />
       {icon}
@@ -107,8 +107,12 @@ function Section5() {
     <section
       id="why-choose-us"
       dir="rtl"
-      className="mx-auto mb-[70px] w-full max-w-[1240px] scroll-mt-28 px-4 sm:mb-[90px] sm:px-6 lg:mb-[120px] lg:px-0"
+      className="relative mx-auto mb-[70px] w-full max-w-[1240px] scroll-mt-28 px-4 sm:mb-[90px] sm:px-6 lg:mb-[120px] lg:px-0"
     >
+      <span
+        aria-hidden="true"
+        className="motion-float motion-breathe pointer-events-none absolute bottom-[-140px] right-[-95px] h-[220px] w-[420px] rounded-full opacity-90 blur-3xl sm:h-[280px] sm:w-[280px] lg:bottom-[-300px] lg:right-[-300px] lg:h-[500px] lg:w-[500px] [background:radial-gradient(circle,rgba(34,167,217,0.46)_0%,rgba(66,100,202,0.35)_46%,rgba(93,46,192,0.26)_74%,rgba(2,6,23,0)_100%)]"
+      />
       <div className="relative mx-auto max-w-[1240px]">
         <div className="mx-auto max-w-[980px] text-center">
           <h2 className="text-[32px] font-extrabold leading-[1.2] sm:text-[32px] md:text-[48px] lg:text-[64px]">

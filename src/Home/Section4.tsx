@@ -40,7 +40,7 @@ const projectCards: ProjectCard[] = [
 function Section4() {
   return (
     <section id="projects" className="relative mb-[120px] overflow-x-hidden overflow-y-visible scroll-mt-28">
-      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0 pt-2 md:pt-0">
+      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 pt-2 sm:px-6 md:pt-0 lg:px-0">
         <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-2 sm:mb-8 sm:gap-6">
           <button
             type="button"
@@ -58,7 +58,7 @@ function Section4() {
               {projectCards.map((card) => (
                 <article
                   key={card.id}
-                  className="w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
+                  className="motion-shimmer w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
                 >
                   <div className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.05)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8" dir="rtl">
                     <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>

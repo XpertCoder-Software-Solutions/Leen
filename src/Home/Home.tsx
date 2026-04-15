@@ -17,19 +17,26 @@ function Home() {
         src={blueHue}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 w-[min(1600px,140vw)] max-w-none -translate-x-1/2"
+        className="pointer-events-none absolute left-1/2 w-[min(1600px,140vw)] max-w-none -translate-x-1/2 motion-shimmer"
       />
-      <div className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
-        <Navbar />
-        <Section1 />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="motion-float absolute -top-20 right-[2%] h-[240px] w-[240px] rounded-full bg-[radial-gradient(circle,rgba(34,167,217,0.38)_0%,rgba(34,167,217,0.05)_72%,rgba(2,6,23,0)_100%)] blur-[90px]" />
+        <span className="motion-float-reverse absolute left-[-90px] top-[34%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(93,46,192,0.32)_0%,rgba(93,46,192,0.05)_72%,rgba(2,6,23,0)_100%)] blur-[110px]" />
+        <span className="motion-float-soft absolute bottom-[13%] right-[8%] h-[220px] w-[220px] rounded-full border border-cyan-300/15 bg-[radial-gradient(circle,rgba(66,100,202,0.3)_0%,rgba(2,6,23,0)_74%)] blur-[80px]" />
       </div>
+      <div className="relative z-10">
+        <div className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
+          <Navbar />
+          <Section1 />
+        </div>
 
-      <Section2 />
-      <Section3 />
-      <Section4 />
-      <Section5 />
-      <Section6 />
-      <Footer />
+        <Section2 />
+        <Section3 />
+        <Section4 />
+        <Section5 />
+        <Section6 />
+        <Footer />
+      </div>
     </main>
   )
 }

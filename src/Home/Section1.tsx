@@ -92,12 +92,12 @@ function Section1() {
       id="home"
       className="relative mx-auto w-full max-w-[1240px] scroll-mt-28 px-0 mb-[120px] pt-[150px] text-center sm:px-0 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
     >
-      <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(62,78,145,1)] bg-[rgba(62,78,145,0.5)] px-3 py-2 text-sm text-[#FDFDFD] sm:text-base">
+      <span className="motion-glow-pulse inline-flex items-center gap-2 rounded-full border border-[rgba(62,78,145,1)] bg-[rgba(62,78,145,0.5)] px-3 py-2 text-sm text-[#FDFDFD] sm:text-base">
         <BsStars />
         لين للحلول الذكية
       </span>
 
-      <h1 className="mx-auto mt-8 max-w-[994px] text-[clamp(2rem,7vw,4.625rem)] font-bold leading-[1.2] text-white">
+      <h1 className="motion-shimmer mx-auto mt-8 max-w-[994px] text-[clamp(2rem,7vw,4.625rem)] font-bold leading-[1.2] text-white">
         حلول تقنية ذكية تدفع أعمالك نحو المستقبل
       </h1>
 
