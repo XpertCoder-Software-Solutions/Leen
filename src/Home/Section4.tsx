@@ -2,6 +2,7 @@ import app6OctoberImage from '../assets/6October App.png'
 import dreamTechImage from '../assets/Dream Tech.png'
 import awliAlazmImage from '../assets/ouli El Azm.png'
 import shagafImage from '../assets/Shagaf.png'
+import { navigateTo } from '../routing'
 
 type ProjectCard = {
   id: string
@@ -44,6 +45,7 @@ function Section4() {
         <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-2 sm:mb-8 sm:gap-6">
           <button
             type="button"
+            onClick={() => navigateTo('/all-projects')}
             className="relative h-9 w-[146px] appearance-none rounded-[10px] border-none bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-[13px] font-bold text-white outline-none transition hover:brightness-110 focus:outline-none sm:h-12 sm:w-[222px] sm:rounded-[12px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]"
           >
             عرض جميع اعمالنا

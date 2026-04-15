@@ -2,6 +2,7 @@ import { useEffect, useState, type MouseEvent } from 'react'
 import { FiMenu } from 'react-icons/fi'
 import logo from '../assets/White Leen 2.png'
 import Vision from '../assets/Vision.png'
+import { getCurrentPath, navigateTo } from '../routing'
 
 const navItems = ['الرئيسية', 'من نحن', 'خدماتنا', 'اعمالنا', 'لماذا نحن', 'تواصل معنا']
 const navItemAnchors: Record<string, string> = {
@@ -16,6 +17,33 @@ const navItemAnchors: Record<string, string> = {
 function Navbar() {
   const [activeItem, setActiveItem] = useState(navItems[0])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const scrollToAnchor = (targetAnchor: string) => {
+    const targetSection = document.querySelector<HTMLElement>(targetAnchor)
+    if (!targetSection) return false
+
+    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', targetAnchor)
+    return true
+  }
+
+  const navigateHomeAndScroll = (targetAnchor: string) => {
+    navigateTo('/')
+
+    let attempts = 0
+    const maxAttempts = 60
+
+    const tryScroll = () => {
+      if (scrollToAnchor(targetAnchor)) return
+
+      attempts += 1
+      if (attempts < maxAttempts) {
+        window.requestAnimationFrame(tryScroll)
+      }
+    }
+
+    window.requestAnimationFrame(tryScroll)
+  }
 
   useEffect(() => {
     const sectionEntries = navItems
@@ -66,10 +94,11 @@ function Navbar() {
     }
 
     event.preventDefault()
-    const targetSection = document.querySelector<HTMLElement>(targetAnchor)
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.history.replaceState(null, '', targetAnchor)
+
+    if (getCurrentPath() === '/') {
+      scrollToAnchor(targetAnchor)
+    } else {
+      navigateHomeAndScroll(targetAnchor)
     }
 
     setActiveItem(item)
