@@ -11,7 +11,6 @@ type ServiceLayout = 'tile' | 'wide'
 type Service = {
   id: string
   title: string
-  description?: string
   tone: ServiceTone
   icon: ServiceIcon
   layout: ServiceLayout
@@ -58,7 +57,6 @@ const services: Service[] = [
   {
     id: 'websites',
     title: 'تصميم وتطوير المواقع الإلكترونية',
-    description: 'تصميم مواقع احترافية بأعلى التقنيات',
     tone: 'blue',
     icon: 'cloud',
     layout: 'wide',
@@ -66,12 +64,13 @@ const services: Service[] = [
   {
     id: 'mobile',
     title: 'تطبيقات الهواتف الذكية',
-    description: 'تصميم تطبيقات مبتكرة لأنظمة iOS و Android',
     tone: 'red',
     icon: 'bolt',
     layout: 'wide',
   },
 ]
+const topCards = services.filter((service) => service.layout === 'tile')
+const bottomCards = services.filter((service) => service.layout === 'wide')
 
 function ServiceIconShape({ icon }: { icon: ServiceIcon }) {
   if (icon === 'shield') {
@@ -139,13 +138,10 @@ function ServiceCard({ service }: { service: Service }) {
 }
 
 function Section3() {
-  const topCards = services.filter((service) => service.layout === 'tile')
-  const bottomCards = services.filter((service) => service.layout === 'wide')
-
   return (
     <section
       id="services"
-      className="relative mb-[120px] scroll-mt-28 overflow-hidden px-4 sm:px-6 lg:px-0"
+      className="relative mb-[120px] mt-[40px] overflow-visible scroll-mt-28 px-4 sm:px-6 lg:px-0"
     >
       <div className="pointer-events-none absolute inset-x-0 top-[220px] hidden h-[920px] lg:block">
         <span className="motion-float absolute left-[4%] top-[210px] h-[360px] w-[360px] rounded-full bg-emerald-500/18 blur-[130px]" />
@@ -184,7 +180,10 @@ function Section3() {
             alt="لين"
             loading="lazy"
             decoding="async"
-            className="motion-float-soft mx-auto mt-14 h-auto w-[100px] sm:mt-16 sm:w-[120px] lg:w-[153px]"
+            fetchPriority="low"
+            width={560}
+            height={496}
+            className="motion-float-soft mx-auto mt-14 h-auto w-[128px] sm:mt-16 sm:w-[152px] lg:w-[184px]"
           />
 
           <h2 className="mt-[32px] text-[36px] font-black leading-[1.2] text-white sm:text-[48px] lg:text-[56px]">

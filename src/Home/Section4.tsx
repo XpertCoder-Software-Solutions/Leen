@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import app6OctoberImage from '../assets/optimized/6oct-app.webp'
-import dreamTechImage from '../assets/optimized/dream-tech.webp'
-import awliAlazmImage from '../assets/optimized/awli-alazm.webp'
-import shagafImage from '../assets/optimized/shagaf.webp'
 import { navigateTo } from '../routing'
+import { fetchWithTimeout } from '../utils/fetchWithTimeout'
+import { readSessionCache, writeSessionCache } from '../utils/sessionCache'
 
 type ProjectCard = {
   id: string
@@ -19,43 +17,19 @@ type ApiProject = {
   photo?: string
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000').replace(/\/+$/, '')
-
-const fallbackProjectCards: ProjectCard[] = [
-  {
-    id: 'shagaf',
-    title: 'تطبيق شغف',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: shagafImage,
-  },
-  {
-    id: 'dream-tech',
-    title: 'Daam Tech Mobile App',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: dreamTechImage,
-  },
-  {
-    id: 'october-app',
-    title: 'تطبيق مراكز 6 اكتوبر',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: app6OctoberImage,
-  },
-  {
-    id: 'awli-alazm',
-    title: 'تطبيق اولى العزم',
-    description: 'استكشف مجموعات الكاميرات المزدوجة والخلفيات المتوفرة لدينا.',
-    image: awliAlazmImage,
-  },
-]
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'https://api.leen.net.sa').replace(/\/+$/, '')
+const DISPLAYED_PROJECTS_CACHE_KEY = 'leen:displayed-projects'
+const PROJECTS_CACHE_TTL_MS = 5 * 60 * 1000
 
 const loadingProjectCards = [1, 2, 3, 4]
+let displayedProjectCardsMemoryCache: ProjectCard[] | null = null
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
 
 function resolveProjectImage(photo: string | undefined): string {
-  if (!photo) return shagafImage
+  if (!photo) return ''
   if (/^https?:\/\//i.test(photo) || photo.startsWith('data:') || photo.startsWith('blob:')) return photo
   if (photo.startsWith('//')) return `https:${photo}`
 
@@ -84,17 +58,29 @@ function mapApiProjectToCard(project: ApiProject, index: number): ProjectCard {
 function Section4() {
   const [projectCards, setProjectCards] = useState<ProjectCard[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [requestFailed, setRequestFailed] = useState(false)
 
   useEffect(() => {
+    if (displayedProjectCardsMemoryCache) {
+      setProjectCards(displayedProjectCardsMemoryCache)
+      setIsLoading(false)
+      return
+    }
+
+    const cachedProjects = readSessionCache<ProjectCard[]>(DISPLAYED_PROJECTS_CACHE_KEY)
+    if (cachedProjects) {
+      displayedProjectCardsMemoryCache = cachedProjects
+      setProjectCards(cachedProjects)
+      setIsLoading(false)
+      return
+    }
+
     const controller = new AbortController()
 
     const loadDisplayedProjects = async () => {
       setIsLoading(true)
-      setRequestFailed(false)
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/projects/displayed`, {
+        const response = await fetchWithTimeout(`${API_BASE_URL}/api/projects/displayed`, {
           signal: controller.signal,
           headers: {
             Accept: 'application/json',
@@ -107,11 +93,12 @@ function Section4() {
         const apiProjects = normalizeApiProjects(payload)
         const mappedCards = apiProjects.map(mapApiProjectToCard)
 
+        displayedProjectCardsMemoryCache = mappedCards
         setProjectCards(mappedCards)
+        writeSessionCache(DISPLAYED_PROJECTS_CACHE_KEY, mappedCards, PROJECTS_CACHE_TTL_MS)
       } catch (error) {
         if (error instanceof Error && error.name === 'AbortError') return
-        setRequestFailed(true)
-        setProjectCards(fallbackProjectCards)
+        setProjectCards([])
       } finally {
         setIsLoading(false)
       }
@@ -125,18 +112,20 @@ function Section4() {
   }, [])
 
   return (
-    <section id="projects" className="relative mb-[120px] overflow-x-hidden overflow-y-visible scroll-mt-28">
+    <section id="projects" className="relative mb-[120px] mt-[40px] overflow-visible scroll-mt-28">
       <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 pt-2 sm:px-6 md:pt-0 lg:px-0">
-        <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-2 sm:mb-8 sm:gap-6">
+        <div dir="ltr" className="relative mb-6 flex items-center justify-between gap-3 sm:mb-8 sm:gap-6">
           <button
             type="button"
             onClick={() => navigateTo('/all-projects')}
-            className="relative h-9 w-[146px] appearance-none rounded-[10px] border-none bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-[13px] font-bold text-white outline-none transition hover:brightness-110 focus:outline-none sm:h-12 sm:w-[222px] sm:rounded-[12px] sm:text-[20px] [box-shadow:0px_0px_0px_5px_rgba(255,255,255,1),0px_0px_0px_4px_rgba(224,233,242,1),0px_3.71px_4.85px_0px_rgba(87,177,255,0.15),0px_10.27px_13.4px_0px_rgba(87,177,255,0.22),0px_24.72px_32.26px_0px_rgba(87,177,255,0.19),0px_42px_107px_0px_rgba(87,177,255,0.34),inset_0px_1px_4px_2px_rgba(210,234,255,1),inset_0px_1px_18px_2px_rgba(210,234,255,1)]"
+            className="brand-btn relative h-9 w-[146px] appearance-none rounded-[10px] border-none text-[13px] font-bold text-white outline-none sm:h-12 sm:w-[222px] sm:rounded-[12px] sm:text-[20px]"
           >
             عرض جميع اعمالنا
           </button>
 
-          <h2 className="shrink-0 whitespace-nowrap text-right text-[24px] font-black text-white sm:text-[44px] lg:text-[56px]">ابرز اعمالنا</h2>
+          <h2 className="shrink-0 whitespace-nowrap text-right text-[24px] font-black tracking-tight text-white sm:text-[44px] lg:text-[56px]">
+            ابرز اعمالنا
+          </h2>
         </div>
 
         <div className="block">
@@ -146,7 +135,7 @@ function Section4() {
                 ? loadingProjectCards.map((loadingCard) => (
                     <article
                       key={loadingCard}
-                      className="w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
+                      className="glass-card cv-auto w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
                     >
                       <div className="h-[110px] animate-pulse bg-[rgba(255,255,255,0.08)] sm:h-[130px] xl:h-[170px]" />
                       <div className="h-[200px] animate-pulse bg-[rgba(255,255,255,0.05)] sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-[265px]" />
@@ -155,24 +144,31 @@ function Section4() {
                 : projectCards.map((card) => (
                     <article
                       key={card.id}
-                      className="motion-shimmer w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
+                      className="glass-card elevated-card group motion-shimmer cv-auto w-[84vw] max-w-[330px] shrink-0 snap-start overflow-hidden rounded-[20px] sm:w-[66vw] sm:max-w-[420px] sm:rounded-[22px] md:w-[56vw] md:max-w-[460px] lg:w-[460px] xl:w-[500px] xl:rounded-[24px]"
                     >
                       <div
-                        className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.05)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8"
+                        className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.03)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8"
                         dir="rtl"
                       >
                         <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>
-                        <p className="mt-1 text-[12px] leading-5 text-[rgba(255,255,255,0.75)] sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">
+                        <p className="mt-1 text-[12px] leading-5 text-slate-300 sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">
                           {card.description}
                         </p>
                       </div>
-                      <img
-                        src={card.image}
-                        alt={card.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-[200px] w-full object-cover sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-[265px]"
-                      />
+                      {card.image ? (
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          loading="lazy"
+                          decoding="async"
+                          fetchPriority="low"
+                          className="h-[200px] w-full object-cover transition duration-500 group-hover:scale-[1.04] sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-[265px]"
+                        />
+                      ) : (
+                        <div className="flex h-[200px] items-center justify-center bg-[rgba(255,255,255,0.04)] text-[13px] text-[rgba(255,255,255,0.7)] sm:h-[240px] md:h-[250px] lg:h-[265px] xl:h-[265px]">
+                          الصورة غير متاحة
+                        </div>
+                      )}
                     </article>
                   ))}
             </div>
@@ -180,11 +176,6 @@ function Section4() {
           {!isLoading && projectCards.length === 0 ? (
             <p className="mt-6 px-1 text-right text-[14px] text-[rgba(255,255,255,0.7)] sm:text-[16px]">
               لا توجد مشاريع معروضة حالياً.
-            </p>
-          ) : null}
-          {requestFailed ? (
-            <p className="mt-6 px-1 text-right text-[13px] text-[rgba(255,255,255,0.6)] sm:text-[14px]">
-              تعذر تحميل المشاريع من الخادم حالياً، فتم عرض نسخة احتياطية.
             </p>
           ) : null}
         </div>

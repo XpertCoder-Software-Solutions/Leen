@@ -1,11 +1,16 @@
-import type { FormEvent } from 'react'
+import type { FormEvent, MouseEvent } from 'react'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
 import footerPattern from '../assets/optimized/footer-pattern.webp'
 import leenMark from '../assets/optimized/leen-mark.webp'
+import { navigateToSection } from '../routing'
 
-const quickLinks = ['الرئيسية', 'من نحن', 'خدماتنا']
+const quickLinks = [
+  { label: 'الرئيسية', href: '/#home' },
+  { label: 'من نحن', href: '/#about' },
+  { label: 'خدماتنا', href: '/#services' },
+]
 const services = ['تصميم وتطوير المواقع', 'تطبيقات الهواتف الذكية', 'أنظمة ERP', 'التسويق الإلكتروني']
 const socialLinks = [
   { icon: FaYoutube, label: 'YouTube' },
@@ -14,10 +19,19 @@ const socialLinks = [
   { icon: FaXTwitter, label: 'Twitter' },
   { icon: FaFacebookF, label: 'Facebook' },
 ]
+const googleMapsLocationUrl = 'https://maps.app.goo.gl/D8dxhmJnd17RExcH8'
 
 function Footer() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+  }
+
+  const handleQuickLinkClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const targetHash = href.split('#')[1]
+    if (!targetHash) return
+
+    event.preventDefault()
+    navigateToSection(`#${targetHash}`)
   }
 
   return (
@@ -29,6 +43,9 @@ function Footer() {
           aria-hidden="true"
           loading="lazy"
           decoding="async"
+          fetchPriority="low"
+          width={1676}
+          height={2444}
           className="pointer-events-none absolute -right-28 top-1/2 hidden h-[940px] w-auto -translate-y-1/2  lg:block"
         />
 
@@ -70,8 +87,14 @@ function Footer() {
               <h3 className="text-[20px] font-bold text-[#FDFDFD] mb-[40px]">روابط سريعة</h3>
               <ul className="mt-3 space-y-1 text-[16px] font-semibold text-[#FDFDFD]">
                 {quickLinks.map((item) => (
-                  <li className=" mt-[12px]" key={item}>
-                    {item}
+                  <li className=" mt-[12px]" key={item.label}>
+                    <a
+                      href={item.href}
+                      onClick={(event) => handleQuickLinkClick(event, item.href)}
+                      className="transition hover:text-cyan-200"
+                    >
+                      {item.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -97,7 +120,10 @@ function Footer() {
                       alt="لين"
                       loading="lazy"
                       decoding="async"
-                      className="mx-auto h-[90px] w-[54px] object-contain"
+                      fetchPriority="low"
+                      width={440}
+                      height={661}
+                      className="mx-auto h-[98px] w-auto max-w-[86px] object-contain sm:h-[112px] sm:max-w-[98px]"
                     />
                   </div>
                   <div className="text-[15px] font-bold text-[#4B5768] sm:text-[16px]">
@@ -126,12 +152,20 @@ function Footer() {
               <FiPhone className="h-[32px] w-[32px] text-[#A0ABBB]" />
               <div>
                 <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">الهاتف</p>
-                <p
-                  dir="ltr"
-                  className="text-[16px] font-bold bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-transparent"
-                >
-                  +966 50 123 4567
-                </p>
+                <div dir="ltr" className="space-y-1 text-[16px] font-bold">
+                  <a
+                    href="tel:+966537666755"
+                    className="block bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] visited:text-transparent"
+                  >
+                    +966 53 766 6755
+                  </a>
+                  <a
+                    href="tel:+2011002131234"
+                    className="block bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] visited:text-transparent"
+                  >
+                    +20 110 2131 234
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -139,9 +173,12 @@ function Footer() {
               <FiMail className="h-[32px] w-[32px] shrink-0 text-[#A0ABBB]" />
               <div>
                 <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">البريد الالكتروني</p>
-                <p className="break-all bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent sm:break-normal">
-                  info@leen-solutions.com
-                </p>
+                  <a
+                    href="mailto:info@leen.net.sa"
+                    className="break-all bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent [-webkit-text-fill-color:transparent] visited:text-transparent sm:break-normal"
+                  >
+                    info@leen.net.sa
+                  </a>
               </div>
             </div>
 
@@ -149,9 +186,14 @@ function Footer() {
               <FiMapPin className="h-[32px] w-[32px] shrink-0 text-[#A0ABBB]" />
               <div>
                 <p className="text-[18px] text-[#FDFDFD] sm:text-[20px]">العنوان</p>
-                <p className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent md:text-[14px]">
+                <a
+                  href={googleMapsLocationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-gradient-to-l from-[#16ACEA] to-[#5C2BC2] bg-clip-text text-[16px] font-bold text-transparent [-webkit-text-fill-color:transparent] visited:text-transparent transition hover:brightness-110 md:text-[14px]"
+                >
                   بريدة، المملكة العربية السعودية
-                </p>
+                </a>
               </div>
             </div>
           </div>

@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react'
-import app6OctoberImage from '../assets/optimized/6oct-app.webp'
-import web6OctoberImage from '../assets/optimized/6oct-web.webp'
-import dreamTechImage from '../assets/optimized/dream-tech.webp'
-import mgWebsiteImage from '../assets/optimized/mg-website.webp'
-import mgImage from '../assets/optimized/mg.webp'
-import onOneImage from '../assets/optimized/on-one.webp'
-import orangeBayImage from '../assets/optimized/orange-bay.webp'
-import polloImage from '../assets/optimized/pollo.webp'
+import { useEffect, useState, type CSSProperties } from 'react'
 import blueHue from '../assets/optimized/projects-hue.webp'
-import shagafImage from '../assets/optimized/shagaf.webp'
-import videoImage from '../assets/optimized/video.webp'
-import awliAlazmImage from '../assets/optimized/awli-alazm.webp'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
+import { fetchWithTimeout } from '../utils/fetchWithTimeout'
+import { readSessionCache, writeSessionCache } from '../utils/sessionCache'
 
 type ProjectCard = {
   id: string
@@ -28,92 +19,20 @@ type ApiProject = {
   photo?: string
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000').replace(/\/+$/, '')
-
-const fallbackProjectCards: ProjectCard[] = [
-  {
-    id: 'shagaf',
-    title: 'تطبيق شغف',
-    description: 'حل رقمي متكامل بتجربة استخدام سريعة وواجهة حديثة.',
-    image: shagafImage,
-  },
-  {
-    id: 'dream-tech',
-    title: 'Dream Tech Mobile App',
-    description: 'تطوير تطبيق موبايل يركز على الأداء وسهولة الوصول.',
-    image: dreamTechImage,
-  },
-  {
-    id: 'october-app',
-    title: 'تطبيق مراكز 6 اكتوبر',
-    description: 'منصة تطبيقات ذكية لإدارة الخدمات والعمليات اليومية.',
-    image: app6OctoberImage,
-  },
-  {
-    id: 'awli-alazm',
-    title: 'تطبيق اولى العزم',
-    description: 'حلول تقنية مرنة لدعم التشغيل والتوسع بثبات.',
-    image: awliAlazmImage,
-  },
-  {
-    id: 'october-web',
-    title: 'موقع مراكز 6 اكتوبر',
-    description: 'تصميم وتطوير موقع احترافي يعكس هوية العلامة.',
-    image: web6OctoberImage,
-  },
-  {
-    id: 'mg-web',
-    title: 'MG Website',
-    description: 'واجهة ويب حديثة مع تجربة تصفح واضحة وسلسة.',
-    image: mgWebsiteImage,
-  },
-  {
-    id: 'orange-bay',
-    title: 'Orange Bay Platform',
-    description: 'منصة رقمية متكاملة تجمع السرعة والدقة في التنفيذ.',
-    image: orangeBayImage,
-  },
-  {
-    id: 'on-one',
-    title: 'On One App',
-    description: 'تطبيق عملي يدعم سير العمل ويبسّط الإجراءات.',
-    image: onOneImage,
-  },
-  {
-    id: 'pollo',
-    title: 'Pollo Project',
-    description: 'تجربة استخدام محسنة مع بنية تقنية قابلة للتطوير.',
-    image: polloImage,
-  },
-  {
-    id: 'mg-brand',
-    title: 'MG Digital Experience',
-    description: 'تحسينات تقنية وبصرية لرفع كفاءة التفاعل مع المنتج.',
-    image: mgImage,
-  },
-  {
-    id: 'video',
-    title: 'Video Showcase',
-    description: 'محتوى بصري يدعم الهوية الرقمية ويبرز القيمة.',
-    image: videoImage,
-  },
-  {
-    id: 'portfolio',
-    title: 'Portfolio Expansion',
-    description: 'مشروع تطوير متكامل يركز على الجودة وقابلية النمو.',
-    image: shagafImage,
-  },
-]
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'https://api.leen.net.sa').replace(/\/+$/, '')
+const ALL_PROJECTS_CACHE_KEY = 'leen:all-projects'
+const PROJECTS_CACHE_TTL_MS = 5 * 60 * 1000
 
 const CARDS_PER_PAGE = 9
 const loadingProjectCards = Array.from({ length: CARDS_PER_PAGE }, (_, index) => index + 1)
+let allProjectCardsMemoryCache: ProjectCard[] | null = null
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
 
 function resolveProjectImage(photo: string | undefined): string {
-  if (!photo) return shagafImage
+  if (!photo) return ''
   if (/^https?:\/\//i.test(photo) || photo.startsWith('data:') || photo.startsWith('blob:')) return photo
   if (photo.startsWith('//')) return `https:${photo}`
 
@@ -143,17 +62,29 @@ function Projects() {
   const [currentPage, setCurrentPage] = useState(1)
   const [projectCards, setProjectCards] = useState<ProjectCard[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [requestFailed, setRequestFailed] = useState(false)
 
   useEffect(() => {
+    if (allProjectCardsMemoryCache) {
+      setProjectCards(allProjectCardsMemoryCache)
+      setIsLoading(false)
+      return
+    }
+
+    const cachedProjects = readSessionCache<ProjectCard[]>(ALL_PROJECTS_CACHE_KEY)
+    if (cachedProjects) {
+      allProjectCardsMemoryCache = cachedProjects
+      setProjectCards(cachedProjects)
+      setIsLoading(false)
+      return
+    }
+
     const controller = new AbortController()
 
     const loadAllProjects = async () => {
       setIsLoading(true)
-      setRequestFailed(false)
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/projects`, {
+        const response = await fetchWithTimeout(`${API_BASE_URL}/api/projects`, {
           signal: controller.signal,
           headers: {
             Accept: 'application/json',
@@ -166,11 +97,12 @@ function Projects() {
         const apiProjects = normalizeApiProjects(payload)
         const mappedCards = apiProjects.map(mapApiProjectToCard)
 
+        allProjectCardsMemoryCache = mappedCards
         setProjectCards(mappedCards)
+        writeSessionCache(ALL_PROJECTS_CACHE_KEY, mappedCards, PROJECTS_CACHE_TTL_MS)
       } catch (error) {
         if (error instanceof Error && error.name === 'AbortError') return
-        setRequestFailed(true)
-        setProjectCards(fallbackProjectCards)
+        setProjectCards([])
       } finally {
         setIsLoading(false)
       }
@@ -209,8 +141,14 @@ function Projects() {
         loading="eager"
         fetchPriority="low"
         decoding="async"
+        width={1600}
+        height={1575}
         className="pointer-events-none absolute left-1/2 top-0 w-[min(1600px,90vw)] max-w-none -translate-x-1/2 motion-shimmer"
       />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="motion-float absolute -top-16 right-[3%] h-[220px] w-[220px] rounded-full bg-[radial-gradient(circle,rgba(34,167,217,0.34)_0%,rgba(34,167,217,0.04)_74%,rgba(2,6,23,0)_100%)] blur-[85px]" />
+        <span className="motion-float-reverse absolute bottom-[12%] left-[-70px] h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle,rgba(93,46,192,0.26)_0%,rgba(93,46,192,0.04)_74%,rgba(2,6,23,0)_100%)] blur-[100px]" />
+      </div>
 
       <div className="relative z-10">
         <div className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-0">
@@ -219,37 +157,72 @@ function Projects() {
 
         <section
           id="projects"
-          className="mx-auto min-h-screen w-full max-w-[1240px] px-4 pb-20 pt-[150px] sm:px-6 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
+          className="mx-auto min-h-screen w-full max-w-[1240px] px-4 pb-20 pt-[140px] sm:px-6 sm:pt-[170px] lg:px-0 lg:pt-[200px]"
         >
-          <div className="mb-8 flex items-center justify-center text-center sm:mb-10">
-            <h1 className="shrink-0 whitespace-nowrap text-center text-[30px] font-black text-white sm:text-[44px] lg:text-[56px]">
+          <div className="mb-8 text-center sm:mb-10">
+            <span
+              style={{ '--enter-delay': '80ms' } as CSSProperties}
+              className="motion-glow-pulse motion-hero-item mx-auto inline-flex rounded-full border border-cyan-400/35 bg-cyan-400/10 px-3.5 py-1.5 text-[11px] font-bold text-cyan-100 sm:px-4 sm:text-sm"
+            >
+              معرض المشاريع
+            </span>
+            <h1
+              style={{ '--enter-delay': '160ms' } as CSSProperties}
+              className="motion-hero-item mt-4 text-center text-[28px] font-black tracking-tight text-white sm:text-[44px] lg:text-[56px]"
+            >
               ابرز اعمالنا
             </h1>
+            <p
+              style={{ '--enter-delay': '230ms' } as CSSProperties}
+              className="motion-hero-item mx-auto mt-3 max-w-[860px] text-[13px] leading-7 text-slate-300 sm:text-[17px]"
+            >
+              مجموعة من المشاريع التي نفذناها في مجالات مختلفة مع تركيز واضح على الجودة، الأداء، وتجربة
+              المستخدم.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div key={currentPage} className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {isLoading
-              ? loadingProjectCards.map((loadingCard) => (
-                  <article key={loadingCard} className="overflow-hidden rounded-[20px] sm:rounded-[22px] xl:rounded-[24px]">
-                    <div className="h-[110px] animate-pulse bg-[rgba(255,255,255,0.08)] sm:h-[130px] xl:h-[170px]" />
-                    <div className="h-[220px] animate-pulse bg-[rgba(255,255,255,0.05)] sm:h-[250px] lg:h-[265px]" />
+              ? loadingProjectCards.map((loadingCard, loadingCardIndex) => (
+                  <article
+                    key={loadingCard}
+                    style={{ '--card-delay': `${loadingCardIndex * 50}ms` } as CSSProperties}
+                    className="glass-card motion-project-card cv-auto overflow-hidden rounded-[20px] sm:rounded-[22px] xl:rounded-[24px]"
+                  >
+                    <div className="h-[120px] animate-pulse bg-[rgba(255,255,255,0.08)] sm:h-[140px] xl:h-[176px]" />
+                    <div className="h-[210px] animate-pulse bg-[rgba(255,255,255,0.05)] sm:h-[240px] lg:h-[265px]" />
                   </article>
                 ))
-              : currentCards.map((card) => (
-                  <article key={card.id} className="motion-shimmer overflow-hidden rounded-[20px] sm:rounded-[22px] xl:rounded-[24px]">
-                    <div className="flex h-[110px] flex-col justify-center bg-[rgba(255,255,255,0.05)] px-4 text-right sm:h-[130px] sm:px-6 xl:h-[170px] xl:px-8">
-                      <h3 className="text-[16px] font-black text-white sm:text-[20px] xl:text-[24px]">{card.title}</h3>
-                      <p className="mt-1 text-[12px] leading-5 text-[rgba(255,255,255,0.75)] sm:text-[14px] xl:mt-[18px] xl:text-[20px] xl:leading-7">
+              : currentCards.map((card, cardIndex) => (
+                  <article
+                    key={card.id}
+                    style={{ '--card-delay': `${cardIndex * 55}ms` } as CSSProperties}
+                    className="glass-card elevated-card project-card-shell group motion-project-card cv-auto overflow-hidden rounded-[20px] sm:rounded-[22px] xl:rounded-[24px]"
+                  >
+                    <span aria-hidden="true" className="project-card-glow-layer" />
+                    <span aria-hidden="true" className="project-card-sheen-layer" />
+                    <div className="project-card-content relative z-10 flex min-h-[120px] flex-col justify-center bg-[rgba(255,255,255,0.03)] px-4 py-4 text-right sm:min-h-[140px] sm:px-6 sm:py-5 xl:min-h-[176px] xl:px-8 xl:py-7">
+                      <h3 className="project-card-title-clamp text-[15px] font-black leading-[1.35] text-white sm:text-[19px] xl:text-[22px]">
+                        {card.title}
+                      </h3>
+                      <p className="project-card-description-clamp mt-1.5 text-[12px] leading-5 text-slate-300 sm:text-[13px] xl:mt-3 xl:text-[16px] xl:leading-7">
                         {card.description}
                       </p>
                     </div>
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-[220px] w-full object-cover sm:h-[250px] lg:h-[265px]"
-                    />
+                    {card.image ? (
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                        className="project-card-media h-[210px] w-full object-cover sm:h-[240px] lg:h-[265px]"
+                      />
+                    ) : (
+                      <div className="project-card-media flex h-[210px] items-center justify-center bg-[rgba(255,255,255,0.04)] text-[13px] text-[rgba(255,255,255,0.7)] sm:h-[240px] lg:h-[265px]">
+                        الصورة غير متاحة
+                      </div>
+                    )}
                   </article>
                 ))}
           </div>
@@ -258,19 +231,13 @@ function Projects() {
             <p className="mt-8 text-center text-[16px] text-[rgba(255,255,255,0.7)]">لا توجد مشاريع حالياً.</p>
           ) : null}
 
-          {requestFailed ? (
-            <p className="mt-8 text-center text-[14px] text-[rgba(255,255,255,0.6)]">
-              تعذر تحميل المشاريع من الخادم حالياً، فتم عرض نسخة احتياطية.
-            </p>
-          ) : null}
-
           {!isLoading && projectCards.length > 0 ? (
-            <div dir="ltr" className="mt-10 flex flex-wrap items-center justify-center gap-2">
+            <div dir="ltr" className="no-scrollbar mt-10 flex w-full items-center justify-start gap-2 overflow-x-auto pb-1 sm:justify-center">
               <button
                 type="button"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="h-10 rounded-[10px] border border-[rgba(255,255,255,0.25)] px-4 text-[14px] font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-40"
+                className="h-10 shrink-0 rounded-[10px] border border-white/20 bg-white/5 px-3 text-[13px] font-bold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40 sm:px-4 sm:text-[14px]"
               >
                 السابق
               </button>
@@ -284,10 +251,10 @@ function Projects() {
                     key={pageNumber}
                     type="button"
                     onClick={() => goToPage(pageNumber)}
-                    className={`h-10 min-w-10 rounded-[10px] px-3 text-[14px] font-bold transition ${
+                    className={`h-10 min-w-10 shrink-0 rounded-[10px] px-3 text-[13px] font-bold transition sm:text-[14px] ${
                       isActive
-                        ? 'bg-[linear-gradient(180deg,#0073FF_0%,#0DA2FF_100%)] text-white'
-                        : 'border border-[rgba(255,255,255,0.25)] text-white hover:bg-[rgba(255,255,255,0.08)]'
+                        ? 'brand-btn motion-page-pill-active text-white'
+                        : 'border border-white/20 bg-white/5 text-white hover:bg-white/10'
                     }`}
                   >
                     {pageNumber}
@@ -299,7 +266,7 @@ function Projects() {
                 type="button"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="h-10 rounded-[10px] border border-[rgba(255,255,255,0.25)] px-4 text-[14px] font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-40"
+                className="h-10 shrink-0 rounded-[10px] border border-white/20 bg-white/5 px-3 text-[13px] font-bold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40 sm:px-4 sm:text-[14px]"
               >
                 التالي
               </button>
